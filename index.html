@@ -7,19 +7,63 @@
     <link rel="stylesheet" href="all.css">
 </head>
 <body>
-    <h1>我的第一支Antigravity應用</h1>
+    <h1>我的第一支Antigravity應用-待辦事項</h1>
     <p>這是一個簡單的HTML頁面，展示了如何使用Antigravity框架來創建一個基本的網頁應用。</p>
     <button id="myButton" >點擊我</button>
-    <div class="card">
-        <h2 class="card-title">卡片1標題</h2>
-        <p class="card-text">這是卡片1的內容。</p>
-        <a href="#" class="card-btn">卡片1按鈕</a>
-    </div>
-    <div class="card">
-        <h2 class="card-title">卡片2標題</h2>
-        <p class="card-text">這是卡片2的內容。</p>
-        <a href="#" class="card-btn">卡片2按鈕</a>
-    </div>
+
+    <section id="todoApp">
+        <h2>plan to do 清單</h2>
+        <div>
+            <input id="newTaskInput" type="text" placeholder="輸入待辦事項說明">
+            <button id="addTaskBtn">新增Task</button>
+        </div>
+        <div id="todoContainer"></div>
+    </section>
+
+    <script>
+        const todoContainer = document.getElementById('todoContainer')
+        const newTaskInput = document.getElementById('newTaskInput')
+        const addTaskBtn = document.getElementById('addTaskBtn')
+
+        function createTaskCard(title, description) {
+            const card = document.createElement('div')
+            card.className = 'card'
+
+            const h2 = document.createElement('h2')
+            h2.className = 'card-title'
+            h2.textContent = title
+
+            const p = document.createElement('p')
+            p.className = 'card-text'
+            p.textContent = description
+
+            const btn = document.createElement('a')
+            btn.href = '#'
+            btn.className = 'card-btn'
+            btn.textContent = '刪除此Task'
+            btn.addEventListener('click', e => {
+                e.preventDefault()
+                card.remove()
+            })
+
+            card.appendChild(h2)
+            card.appendChild(p)
+            card.appendChild(btn)
+            return card
+        }
+
+        // 初始一筆 Task1
+        let taskCounter = 2;
+        todoContainer.appendChild(createTaskCard('Task1', '待辦事項的說明'))
+
+        addTaskBtn.addEventListener('click', () => {
+            const desc = newTaskInput.value.trim()
+            if (!desc) return
+            todoContainer.appendChild(createTaskCard('Task' + taskCounter, desc))
+            taskCounter++
+            newTaskInput.value = ''
+        })
+    </script>
     
     <script src="all.js"></script>
 </body>
